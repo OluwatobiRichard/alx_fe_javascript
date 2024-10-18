@@ -71,6 +71,27 @@ async function sendQuoteToServer(quote) {
     }
 }
 
+// Sync quotes with the server
+async function syncQuotes() {
+    // Fetch quotes from the server and update the local quotes array
+    await fetchQuotesFromServer();
+
+    // Filter out quotes that have not been sent to the server (no "Fetched" category)
+    const unsentQuotes = quotes.filter(quote => quote.category !== "Fetched");
+
+    // Send unsent quotes to the server
+    for (const quote of unsentQuotes) {
+        await sendQuoteToServer(quote);
+    }
+
+    // Update the categories and save the latest quotes
+    populateCategories();
+    saveQuotes();
+
+    // Confirmation message for sync completion
+    alert("Quotes synchronized successfully!");
+}
+
 // Populate categories dynamically in the dropdown
 function populateCategories() {
     const categoryFilter = document.getElementById('categoryFilter');
@@ -149,7 +170,7 @@ function createAddQuoteForm() {
         <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
         <button onclick="addQuote()">Add Quote</button>
         <button onclick="fetchQuotesFromServer()">Fetch Quotes from Server</button>
-        <button onclick="postQuote()">Send Quote to Server</button>
+        <button onclick="syncQuotes()">Sync Quotes</button>
     `;
     document.body.appendChild(formContainer);
 }
