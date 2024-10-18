@@ -8,6 +8,7 @@ function loadQuotes() {
 
 // Save quotes to local storage
 function saveQuotes() {
+    // Use localStorage.setItem to persist quotes
     localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
@@ -102,3 +103,4 @@ function importFromJsonFile(event) {
 
 // Call createAddQuoteForm to generate the form when the page loads
 createAddQuoteForm();
+
