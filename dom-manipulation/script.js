@@ -89,7 +89,7 @@ async function syncQuotes() {
     saveQuotes();
 
     // Confirmation message for sync completion
-    alert("Quotes synchronized successfully!");
+    alert("Quotes synced with server!");
 }
 
 // Set an interval to sync quotes with the server every 5 minutes (300,000 milliseconds)
