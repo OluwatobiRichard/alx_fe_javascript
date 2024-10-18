@@ -47,6 +47,30 @@ async function fetchQuotesFromServer() {
     }
 }
 
+// Send a new quote to the server using a POST request
+async function sendQuoteToServer(quote) {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(quote)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to send quote to server');
+        }
+        
+        const result = await response.json();
+        console.log('Quote sent to server:', result);
+        alert("Quote sent to the server successfully!");
+    } catch (error) {
+        console.error('Error sending quote:', error);
+        alert('Failed to send quote to the server. Please try again later.');
+    }
+}
+
 // Populate categories dynamically in the dropdown
 function populateCategories() {
     const categoryFilter = document.getElementById('categoryFilter');
@@ -125,6 +149,7 @@ function createAddQuoteForm() {
         <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
         <button onclick="addQuote()">Add Quote</button>
         <button onclick="fetchQuotesFromServer()">Fetch Quotes from Server</button>
+        <button onclick="postQuote()">Send Quote to Server</button>
     `;
     document.body.appendChild(formContainer);
 }
@@ -136,10 +161,14 @@ function addQuote() {
 
     if (quoteText && quoteCategory) {
         // Add the new quote to the array
-        quotes.push({ text: quoteText, category: quoteCategory });
+        const newQuote = { text: quoteText, category: quoteCategory };
+        quotes.push(newQuote);
 
         // Save the updated quotes to local storage
         saveQuotes();
+
+        // Optionally, send the new quote to the server
+        sendQuoteToServer(newQuote);
 
         // Update the categories dropdown if the category is new
         if (!Array.from(document.querySelectorAll('#categoryFilter option')).some(option => option.value === quoteCategory)) {
