@@ -18,6 +18,30 @@ function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
+// Fetch quotes from server and add them to the quotes array
+async function fetchQuotesFromServer() {
+    try {
+        const response = await fetch('https://example.com/api/quotes'); // Replace with the actual API URL
+        if (!response.ok) {
+            throw new Error('Failed to fetch quotes from server');
+        }
+        const serverQuotes = await response.json();
+        quotes = [...quotes, ...serverQuotes];
+        
+        // Save the updated quotes to local storage
+        saveQuotes();
+        
+        // Update the categories dropdown
+        populateCategories();
+        
+        // Show a confirmation message
+        alert("Quotes fetched from server and added successfully!");
+    } catch (error) {
+        console.error('Error fetching quotes:', error);
+        alert('Failed to fetch quotes from server. Please try again later.');
+    }
+}
+
 // Populate categories dynamically in the dropdown
 function populateCategories() {
     const categoryFilter = document.getElementById('categoryFilter');
@@ -95,6 +119,7 @@ function createAddQuoteForm() {
         <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
         <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
         <button onclick="addQuote()">Add Quote</button>
+        <button onclick="fetchQuotesFromServer()">Fetch Quotes from Server</button>
     `;
     document.body.appendChild(formContainer);
 }
