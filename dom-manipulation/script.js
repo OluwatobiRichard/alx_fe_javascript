@@ -16,6 +16,17 @@ function showRandomQuote() {
 // Call showRandomQuote on button click
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 
+// Function to create the add quote form dynamically
+function createAddQuoteForm() {
+    const formContainer = document.createElement('div');
+    formContainer.innerHTML = `
+        <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
+        <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
+        <button onclick="addQuote()">Add Quote</button>
+    `;
+    document.body.appendChild(formContainer);
+}
+
 // Function to add a new quote
 function addQuote() {
     const quoteText = document.getElementById('newQuoteText').value.trim();
@@ -35,3 +46,6 @@ function addQuote() {
         alert("Please fill in both fields.");
     }
 }
+
+// Call createAddQuoteForm to generate the form when the page loads
+createAddQuoteForm();
