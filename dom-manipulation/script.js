@@ -9,7 +9,8 @@ let quotes = [
 function showRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.textContent = `"${quotes[randomIndex].text}" - ${quotes[randomIndex].category}`;
+    // Use innerHTML to set the content, allowing for richer formatting if needed
+    quoteDisplay.innerHTML = `<p>"${quotes[randomIndex].text}"</p><em>- ${quotes[randomIndex].category}</em>`;
 }
 
 // Call showRandomQuote on button click
