@@ -21,12 +21,17 @@ function saveQuotes() {
 // Fetch quotes from server and add them to the quotes array
 async function fetchQuotesFromServer() {
     try {
-        const response = await fetch('https://example.com/api/quotes'); // Replace with the actual API URL
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
         if (!response.ok) {
             throw new Error('Failed to fetch quotes from server');
         }
         const serverQuotes = await response.json();
-        quotes = [...quotes, ...serverQuotes];
+        // Map the server data to match the format of our quotes array
+        const formattedServerQuotes = serverQuotes.map(post => ({
+            text: post.title,
+            category: "Fetched" // Assign a default category for fetched quotes
+        }));
+        quotes = [...quotes, ...formattedServerQuotes];
         
         // Save the updated quotes to local storage
         saveQuotes();
