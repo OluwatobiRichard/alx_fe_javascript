@@ -92,6 +92,9 @@ async function syncQuotes() {
     alert("Quotes synchronized successfully!");
 }
 
+// Set an interval to sync quotes with the server every 5 minutes (300,000 milliseconds)
+setInterval(syncQuotes, 300000);
+
 // Populate categories dynamically in the dropdown
 function populateCategories() {
     const categoryFilter = document.getElementById('categoryFilter');
